@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pragmatic Clean Code"
+  short_description: "Write readable code with context-aware principles"
+  default_prompt: "Use $pragmatic-clean-code to implement this change with readable, maintainable, context-aware code."

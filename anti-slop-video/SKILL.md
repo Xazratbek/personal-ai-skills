@@ -37,7 +37,7 @@ Why these rules exist: generators drift to the most common pattern in their trai
 - Frame-check for flicker, morphing, jumps, dead frames (>0.5 s with nothing moving).
 
 **Voice & sound** — slop is the "TTS plateau".
-- Prefer a natural model; always post-process: ±2–3 % speed/pitch variation per line, soft breaths before lines, room tone, real foley (tap click, whoosh, notification chime) synced to on-screen events, music ducked under voice, −14 LUFS integrated.
+- **Use the `anti-slop-voice` skill for every voiceover.** Short version: native-language modern model, one locked brand voice cloned for every line, generated at the target pace (≈150–170 wpm for Reels). Never resample/time-stretch lines for "variation" and never paste synthetic noise breaths — both make the voice sound slowed-down and metallic. Light studio chain, punctuation-aware gaps, constant room tone, real foley (tap click, whoosh, notification chime) synced to on-screen events, music ducked under voice, −14 LUFS integrated.
 - Hard-to-read words get phonetic spellings in the *spoken* text only (keep the caption spelling): e.g. IELTS → "айэлтс", speaking → "спикинг". Run every line through an ASR round-trip and re-synthesise lines that don't match.
 - Never say the brand/bot name if the user said not to; point to "link in profile/description" instead.
 

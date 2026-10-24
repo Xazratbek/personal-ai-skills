@@ -11,7 +11,7 @@ Sources: [Opus — 12 tells of AI video](https://www.opus.pro/blog/ai-slop-aesth
 | Silky weightless motion | Mathematically smooth moves, floating, no weight transfer, no micro-jitter | Anticipation/overshoot/settle, organic drift, varied easing and stagger |
 | Flat uniform light/colour | Same diffuse light, over-saturated grade | One restrained grade, real specular/sweep lights, device shadows |
 | No camera variety | No depth, no movement, same framing | ≥4 compositions, ≥1 deliberate camera move, per-scene camera signatures |
-| TTS plateau / no breaths | Metronomic delivery, no emphasis, no breaths every 5–10 s | Natural voice model, per-line variation, breaths, room tone, phonetic respelling |
+| TTS plateau / no breaths | Metronomic delivery, no emphasis, no breaths every 5–10 s | Natural native-language model, varied script rhythm and punctuation-aware gaps, room tone, phonetic respelling. No resample "variation" or fake breaths (see `anti-slop-voice`). |
 | Silence under voice | Only VO + music bed | Foley synced to events, ambience, ducking |
 | Gibberish in-scene text | Signs/logos that look like text | Use real captured UI; keep in-scene text minimal and real |
 | Hands/faces morphing | Extra fingers, melting faces | Never synthesize them; use real stock footage/photos or keep out of frame |

@@ -21,6 +21,7 @@ This repository holds `SKILL.md` files that instruct agents how to work on speci
 | [`crm-erp-ui-ux`](./crm-erp-ui-ux/) | CRM/ERP veb interfeyslari (React): app shell, data grid, formalar, accessibility, operational dashboard dizayn. |
 | [`mobile-ux-pro`](./mobile-ux-pro/) | iPhone va Android (SwiftUI, Compose), Flutter, React Native uchun mobil UX/UI: holat, navigatsiya, formalar, ruxsatlar, onboarding, accessibility. / Mobile UX/UI for iOS, Android, Flutter and React Native: screen states, navigation, forms, permissions, onboarding, accessibility. |
 | [`pragmatic-clean-code`](./pragmatic-clean-code/) | O‘qilishi oson, maintainable kod: SOLID, DRY, KISS, YAGNI, refaktoring va arxitektura chegaralari. |
+| [`anti-slop-video`](./anti-slop-video/) | AI-slop belgilarisiz video/reels: aniq skript, o‘ziga xos vizual, jonli harakat va ovoz, QA-gate va copy linter. / Make video that doesn’t read as AI slop: specific scripts, distinct visuals, organic motion and voice, QA gate and copy linter. |
 
 Har bir papkada `SKILL.md` — agent uchun asosiy ko‘rsatma; qo‘shimcha `reference.md`, `examples.md` va `agents/` bo‘lishi mumkin.
 

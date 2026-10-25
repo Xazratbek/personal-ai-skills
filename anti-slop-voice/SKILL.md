@@ -34,7 +34,15 @@ Details, sources and the extra tells are in `references/tells.md`.
 7. **Mix:** VO is king. Music bed ducked 10–15 dB under speech (fast attack ~50 ms, release ~400 ms), SFX on real on-screen events, constant low room tone, final −14 LUFS integrated, true peak ≤ −1 dBTP.
 8. **QA gate** (`references/qa-checklist.md`) — run `scripts/voice_qc.py --text` on every final line and on the final mix; report pass/fail honestly. If you cannot listen, say so and ask the user for a 10-second listen of one line before batch-rendering everything.
 
+## When synthetic is not enough
+Measured cleanliness is not naturalness. In a real batch, a clean local clone (Qwen3-TTS 0.6B on CPU, flatness 0.008, F0 SD 4.7, 142 wpm, ASR 1.0) was still rejected by the listener for **intonation and pacing**: per-line generation resets the melody every sentence, and a designed (synthetic) reference carries its own slow, announcer-like delivery into every clone. If the listener says it still sounds AI-made:
+- Prefer a **human read**: hire a native voice actor (Kwork/Fiverr/Voice123) with a brief (lines, mood per video, pace, pronunciation, dry 48 kHz WAV, one file per line), then ingest, trim and time captions from ASR. This is the most reliable anti-slop voice.
+- Or a **licensed premium voice** (e.g. ElevenLabs Voice Library — actors who consented and are paid).
+- **Never** take or clone a real person's voice found online (YouTube, podcasts, open ASR datasets like Common Voice) for marketing: they did not consent to being cloned into ads.
+- If staying synthetic: generate a whole video's script in one pass (continuous prosody) instead of line by line, and clone from a real consenting human reference rather than a designed voice.
+
 ## Hard rules
+- **Get a human listen on one finished line before batch-rendering videos.** Wait for the answer; do not start the render "in the meantime".
 - Never time-stretch or resample generated speech to make it "vary" or to fit a timeline. Fit the timeline by editing the script or the visuals.
 - Never add synthetic breath noise.
 - Never mix a non-native speaker preset into a language-specific product video.

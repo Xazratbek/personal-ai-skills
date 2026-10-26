@@ -19,6 +19,7 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 8. **Deliver**: send the file with its absolute path, delete superseded versions so nobody reviews an old cut, commit/push sources.
 
 ## Script rules
+- **Humanize every script** (see `anti-slop-video` → Script humanizer): complete natural sentences in the language's own word order; no English-ad fragment chains ("Foiz — nol. Bir so'm ham."); native read-through before voicing.
 - **Spoken, not written.** Polished ad lines ("One tap. You're in.") read as AI copy even with a perfect voice. Write how the target viewer talks to a friend: informal address when the audience is young, run-on sentences, a reaction, a fragment, a question. Read it aloud; if nobody would say it, rewrite it.
 - One hook archetype per video, different across a batch: story/POV, countdown, pain, myth-busting, mini-tutorial, sensory moment, challenge, empathy, question, how-to-count, keynote parody.
 - Concrete, checkable specifics; never invented stats, user counts, awards or testimonials.
@@ -60,7 +61,7 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 ## Sound rules
 - Music sits ≥15 dB under the voice *while words are spoken* (measure VO vs music RMS on voiced samples) and comes back up between sentences; with no voice, music carries the edit — cut to its beats. Lay the music grid so a downbeat lands on the biggest visual hit; cut it for a "drop" and restart on a new downbeat.
 - Original music can be written in code when licensing matters (`references/music-in-code.md`): plucked strings (Karplus-Strong), pads, sub bass, drums, reverb — arranged around the cue list, ending on a chord that rings under the end card.
-- Dense but motivated SFX: whoosh into each title, hit on each landing, a sound for every device move, tap and logo; place and EQ them under the voice rather than removing them.
+- Motivated SFX, but **no whoosh carpet**: noise whooshes on every title/cut annoy listeners and read as template. Use tonal soft sounds instead (mallet notes in the music's key, wood taps, soft thumps, bells on success), at most 1–2 real whooshes per video on a big physical move.
 - Foley/SFX only on real on-screen events (tap click, whoosh on a move, chime on a notification, success on a confirmation); constant very low room tone removes digital silence.
 - −14 LUFS integrated, true peak ≤ −1 dBTP for social delivery.
 

@@ -41,6 +41,17 @@ Why these rules exist: generators drift to the most common pattern in their trai
 - Hard-to-read words get phonetic spellings in the *spoken* text only (keep the caption spelling): e.g. IELTS → "айэлтс", speaking → "спикинг". Run every line through an ASR round-trip and re-synthesise lines that don't match.
 - Never say the brand/bot name if the user said not to; point to "link in profile/description" instead.
 
+**Transition sounds — no whoosh carpet.** A noise "shuu / shirr" on every cut or text entrance is one of the loudest template tells and, by the client's own words, gets on people's nerves. Rules:
+- At most one or two noise whooshes per video, and only on a genuinely big physical move (a device flying in). Never on text, captions, screen changes or every scene start.
+- Default transition sounds are **tonal and soft**: a mallet/marimba note in the music's key (pentatonic so anything fits), a muted wood tap, a low soft thump with no click, a small bell on a success moment, a note from the music itself, or simply silence on the cut. Keep them −20…−30 dB under the voice.
+- Library sounds: audition before use; prefer soft organic UI sets (Kenney UI/Interface — CC0; Google Material Design sound resources — CC BY 4.0, credit them) over "cinematic whoosh" packs.
+
+**Script humanizer (do this pass on every script, every language).** AI copy gives itself away with punchy fragment chains copied from English ad templates ("Zero. Not a cent." → "Har buyurtmadan foiz — nol. Bir so'm ham.") that a native speaker would never say. Before voicing:
+- Each sentence is a complete thought in natural word order for the language (Uzbek/Turkic: verb at the end; Russian: no calques from English). No dangling dashes or one-word sentences unless a person would really say them.
+- Say it the way the target viewer talks to a colleague: "Buyurtmalardan foiz olmaymiz — umuman." instead of "Foiz — nol. Bir so'm ham."; "Mijoz botdan buyurtma beradi" instead of "Buyurtma — botda."
+- Read every line aloud; if it sounds like a slogan or a translation, rewrite it. Ask the person (native speaker) to read the script once before the voice is generated.
+- Keep facts exact while simplifying wording (prices, tariffs, what is in which plan).
+
 **Captions** — readable, not template. Short phrases (≤ 2 lines), word-level highlight timed to speech, safe zones (platform UI covers roughly the top 220 px and bottom 420 px of 1080×1920), good contrast on busy backgrounds.
 
 **Batch ledger** — slop also lives *between* videos. Keep a table per batch: hook archetype, dominant colour, signature device/visual idea (receipt printer, odometer clock, chat thread, light line…), camera signature, closing line, music genre/tempo. A device reused in a second video of the same batch (e.g. a "0 so'm" stamp on a receipt twice) reads as a template even when every single video passes on its own.

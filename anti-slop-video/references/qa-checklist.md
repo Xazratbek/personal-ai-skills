@@ -22,7 +22,7 @@ Run `python scripts/lint_copy.py <scripts>` first. Then go through every item fo
 13. Shot lengths vary (≈1–8 s), moves land on audio accents.
 
 ## D. Audio
-14. Voice post-processed (variation, breaths, room tone); ASR round-trip matches the script.
+14. Voice passes the `anti-slop-voice` QA gate (native voice, pace, no stretch/fake breaths, studio chain, room tone); ASR round-trip matches the script.
 15. Foley synced to taps/transitions/notifications; music ducked under voice.
 16. Integrated loudness ≈ −14 LUFS, true peak ≤ −1 dBTP.
 

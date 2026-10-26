@@ -54,7 +54,8 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 - Vary transitions (hard cut on a beat, match cut on a tap, whip, push) — the same entrance every scene is a tell.
 - Shot lengths ≈1–8 s, cut on audio accents, ≥4 compositions, no dead frame >0.5 s, no flicker/morph/jump (`scripts/motion_qa.py`). Subtle grain over everything.
 - **Motion blur that doesn't ghost text:** average sub-frames with a *tent* (triangular) weight, not a box — box-averaged text leaves two hard-edged copies. Use ≥12–16 sub-frames on fast moves (measure px/frame: ≥40 px/frame needs them), shutter 180–300°. Ease scrolls in-out (sine/cubic), not quint-out: an infinite start velocity smears the first frames.
-- **Kinetic type**: chunks of 2–4 words that replace each other; each word lands on its spoken time; the outgoing chunk must be fully gone before the next word lands, or two text layers overlap.
+- **Kinetic type**: chunks of 2–4 words that replace each other; each word lands on its spoken time; the outgoing chunk must be fully gone before the next word lands, or two text layers overlap. Cut word sprites from a render of that word alone (others hidden), never from the multi-line render — tight line-height makes crops catch the neighbouring line's letters.
+- Continuous effects (glare sweeps, glows, gradients) are computed per frame from a continuous parameter; a small table of precomputed phases reads as stutter.
 
 ## Sound rules
 - Music sits ≥15 dB under the voice *while words are spoken* (measure VO vs music RMS on voiced samples) and comes back up between sentences; with no voice, music carries the edit — cut to its beats. Lay the music grid so a downbeat lands on the biggest visual hit; cut it for a "drop" and restart on a new downbeat.

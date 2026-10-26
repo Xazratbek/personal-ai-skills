@@ -40,3 +40,5 @@ From a real 11-video batch that was rejected four times before approval. Format:
 27. **Hand-drawn phones** → the client asked for real device assets → maker bezels (Apple Product Bezels), screen under the bezel; licence: mock-ups only, never committed.
 28. **Music bed only 12 dB under the voice** in a code-made groove → measured VO−music RMS on voiced samples and deepened the duck to ≥15 dB.
 29. **Dev servers gone after a container restart** → capture scripts failed with connection refused → check/restart servers before every capture session.
+30. **"The glare over the phone isn't smooth, it stutters"** → the specular sweep picked one of 32 precomputed phases → compute continuous effects per frame (or interpolate), never step through a small table.
+31. **"Tips of the letters below show under the line"** → word sprites cropped from a multi-line text render; the span box (≈1.2 em) is taller than the line height (1.04 em), so each crop caught the next line's ascenders/accents → render each word alone (others `visibility:hidden`, same layout) and crop from that.

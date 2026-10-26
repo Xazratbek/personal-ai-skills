@@ -9,11 +9,11 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 
 ## Workflow
 
-1. **Brief before building** (3–6 lines): who watches, the one concrete situation, the hook archetype, 2–3 specifics only this product/place has (names, times, numbers, real UI states), the look, a unique closing line, and the format(s) (9:16, 16:9, 1:1). If you cannot name a specific detail, you are not ready to write.
+1. **Brief before building** (3–6 lines): who watches, the one concrete situation, the hook archetype, 2–3 specifics only this product/place has (names, times, numbers, real UI states), the look, a unique closing line, and the format(s) (9:16, 16:9, 1:1). If you cannot name a specific detail, you are not ready to write. For a spec ad or anything with a client brief template, write it to a file (`brief/PROMPT.md`: concept, beat sheet with timings, script, voice, music, SFX plan, assets list with licences) — see `references/spec-ad.md`.
 2. **Write for the ear** — see Script rules. Lint: `python scripts/lint_copy.py script.json`.
 3. **Decide on voice at all.** Launch films, logo stings and UI showcases often work better with music + precise SFX and on-screen type only. A voice is for explaining or storytelling; a bad voice costs more than no voice.
 4. **Voice (if any)** — see Voice rules. Get one human listen on the first finished take of each new voice before batch-producing.
-5. **Build the picture** — see Look and Motion rules; real product footage/UI first.
+5. **Build the picture from the voice** — every scene start, caption word and SFX cue is computed from the take's word alignment ("re-time the picture to the voice, never the voice to the picture"), so a voice swap is a re-run. Real product footage/UI first; see Look and Motion rules.
 6. **Mix and render**; long jobs detached from your session (see Ops).
 7. **QA gate** `references/qa-gate.md` as a ✓/✗ table; state plainly what you measured vs. what a human heard/saw.
 8. **Deliver**: send the file with its absolute path, delete superseded versions so nobody reviews an old cut, commit/push sources.
@@ -36,12 +36,15 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 5. **Audio/emotion tags sparingly** (≤1 per line, never on the first word). **No breathy or intimate tags** (sighs, tired, exhales, whispers, playful laughs) unless the content is meant to be intimate: a sigh before the first word of an ad was heard as a sexual moan.
 6. **Pick by numbers, confirm by ear**: 3 takes, keep the best by ASR match (`difflib` with `autojunk=False`) and pace (Reels ≈150–170 wpm; 145–185 acceptable); reject takes with audible sound >0.2 s before the first word; then check the first word yourself in the transcript.
 7. Phonetic spellings and stress marks in the *spoken* text only; captions keep real spelling.
-8. Metrics are necessary, not sufficient: a clone with perfect flatness, pitch spread and ASR was still rejected for intonation. When the listener says "still AI", change the method (continuous take, better voice, human actor), not the EQ.
+8. Weak-ASR languages (e.g. Uzbek): ASR can catch wrong words but not accent — a native listener picks between numbered samples; write the language in its proper orthography (Uzbek ʻ U+02BB), test brand/domain respellings inside the full take. Details: `anti-slop-voice`.
+9. Metrics are necessary, not sufficient: a clone with perfect flatness, pitch spread and ASR was still rejected for intonation. When the listener says "still AI", change the method (continuous take, better voice, human actor), not the EQ.
 
 ## Look rules
 - No default AI aesthetics: purple/violet→blue gradients, glow blobs, cyan-on-dark, glassmorphism, gradient text, emoji headlines, three-icon grids, everything centred.
 - A palette with a reason (place, culture, product), flat colour fields, bold geometry, hard-offset shadows, grain; one display face + one accent face chosen for the script's language coverage.
 - Real product (captured UI at device resolution, real data) and real people/places (own or licensed footage). Never generated faces/hands, no gibberish text.
+- Real devices, never hand-drawn: the maker's device frames (Apple Product Bezels) with the screen composited under the bezel at the measured opening; respect the licence (mock-ups only, don't commit or redistribute the PNGs — ship a download script).
+- Fonts: check the licence for video/ads (SF Pro is licensed only for Apple-platform mock-ups) — prefer the brand's own fonts or OFL faces with full coverage of the script's language (Uzbek ʻ, Cyrillic).
 - **One text layer per moment.** Headline + kicker + sticker + karaoke caption at once is a template tell the viewer reads as "AI-made" even without naming it.
 - Each video in a batch gets its own dominant colour, layout and device angle inside one system.
 - 9:16 safe zones: keep key content out of the top ~220 px and bottom ~420 px of 1080×1920. 16:9 is not a stretched 9:16 — recompose for the wide frame (side-by-side UI, wider type, longer holds).
@@ -49,10 +52,14 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 ## Motion rules
 - Weight and imperfection: anticipation, overshoot, settle; organic drift from incommensurate sines; easing and stagger varied; camera moves motivated by content and different scene to scene.
 - Vary transitions (hard cut on a beat, match cut on a tap, whip, push) — the same entrance every scene is a tell.
-- Shot lengths ≈1–8 s, cut on audio accents, ≥4 compositions, no dead frame >0.5 s, no flicker/morph/jump. Subtle grain over everything.
+- Shot lengths ≈1–8 s, cut on audio accents, ≥4 compositions, no dead frame >0.5 s, no flicker/morph/jump (`scripts/motion_qa.py`). Subtle grain over everything.
+- **Motion blur that doesn't ghost text:** average sub-frames with a *tent* (triangular) weight, not a box — box-averaged text leaves two hard-edged copies. Use ≥12–16 sub-frames on fast moves (measure px/frame: ≥40 px/frame needs them), shutter 180–300°. Ease scrolls in-out (sine/cubic), not quint-out: an infinite start velocity smears the first frames.
+- **Kinetic type**: chunks of 2–4 words that replace each other; each word lands on its spoken time; the outgoing chunk must be fully gone before the next word lands, or two text layers overlap.
 
 ## Sound rules
-- Music bed ducked 10–15 dB under voice; with no voice, music carries the edit — cut to its beats.
+- Music sits ≥15 dB under the voice *while words are spoken* (measure VO vs music RMS on voiced samples) and comes back up between sentences; with no voice, music carries the edit — cut to its beats. Lay the music grid so a downbeat lands on the biggest visual hit; cut it for a "drop" and restart on a new downbeat.
+- Original music can be written in code when licensing matters (`references/music-in-code.md`): plucked strings (Karplus-Strong), pads, sub bass, drums, reverb — arranged around the cue list, ending on a chord that rings under the end card.
+- Dense but motivated SFX: whoosh into each title, hit on each landing, a sound for every device move, tap and logo; place and EQ them under the voice rather than removing them.
 - Foley/SFX only on real on-screen events (tap click, whoosh on a move, chime on a notification, success on a confirmation); constant very low room tone removes digital silence.
 - −14 LUFS integrated, true peak ≤ −1 dBTP for social delivery.
 
@@ -61,12 +68,18 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 - Never `pkill -f <pattern>` from a command whose own text contains the pattern (it kills your shell); a watchdog that greps its own command line never exits. Match process names (`pgrep -x`).
 - Don't edit a shell script while bash is running it.
 - If you stop a system service to free CPU for a render, restore it with a `trap` *and* a detached guard.
-- Ask before spending money (paid TTS tiers, stock) and before deleting.
+- Ask before spending money (paid TTS tiers, stock) and before deleting; estimate API credits (characters × takes) before generating.
+- Containers restart: before a capture session check that the local app servers are still up; keep capture scripts re-runnable.
+- Playwright captures: write HTML to a temp file and `goto file://` (inline `setContent` won't load local fonts/images); element screenshots with transparent backgrounds by clearing the surrounding backgrounds; fix clock and time zone; the app's UI language may come from the user profile, not the browser locale.
 
 ## References
 - `references/lessons.md` — field-tested failures: the viewer's words, the real cause, the fix.
 - `references/voice.md` — engine selection, measured engine notes, continuous-take recipe (ElevenLabs example), tags, QC metrics.
 - `references/qa-gate.md` — pre-delivery checklist.
 - `references/tells.md` — research-backed list of AI-slop tells with sources.
+- `references/spec-ad.md` — spec-ad brief template and standing rules (60 fps, 16:9 + 9:16, real assets, code music, dense SFX, end card).
+- `references/music-in-code.md` — recipe for original music in numpy/scipy, arranged to the cue list, with ducking checks.
 - `scripts/lint_copy.py` — script linter (banned phrases, duplicate openers/endings, metronome lines, missing specifics).
 - `scripts/voice_qc.py` — voice metrics: spectral flatness, F0 spread, wpm, max pause, ASR match.
+- `scripts/asr_check.py` — ASR round-trip (Scribe + whisper) with must-hear words (brand, domain, prices).
+- `scripts/motion_qa.py` — dead frames (> 0.5 s) and jumps from frame differences.

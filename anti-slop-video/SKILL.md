@@ -43,7 +43,27 @@ Why these rules exist: generators drift to the most common pattern in their trai
 
 **Captions** — readable, not template. Short phrases (≤ 2 lines), word-level highlight timed to speech, safe zones (platform UI covers roughly the top 220 px and bottom 420 px of 1080×1920), good contrast on busy backgrounds.
 
+**Batch ledger** — slop also lives *between* videos. Keep a table per batch: hook archetype, dominant colour, signature device/visual idea (receipt printer, odometer clock, chat thread, light line…), camera signature, closing line, music genre/tempo. A device reused in a second video of the same batch (e.g. a "0 so'm" stamp on a receipt twice) reads as a template even when every single video passes on its own.
+
+**Devices and product proof**
+- Never draw a phone, tablet or laptop by hand. Use the maker's real device frames (Apple Design Resources → Product Bezels for iPhone/iPad; read their licence — mock-ups only, no redistribution, so keep the PNGs out of git and ship a download script) and composite the real screen *under* the bezel, aligned to the measured screen opening, with the bezel's own Dynamic Island.
+- Capture screens at the device's own point size (iPhone 17 Pro: 402×874 pt @3x) with the platform chrome you would really see (status bar, Telegram web-app header), fixed clock/time zone and the right UI language.
+- Real proof beats claims: crop the client's own pricing card, steps section or trial banner from their site and show it; verify every fact against the *current* source (code, live page) — old assets go stale (a social preview image still said "14 days free" when the product gave 30).
+- Before any capture goes into a video, scan it for personal data and phone numbers (crop or re-frame) and say on screen that demo data is sample data.
+
+**Captions that are part of the world** — instead of a template caption bar, let the product carry the words: chat bubbles whose words darken as they are spoken, kinetic type chunks of 2–4 words that replace each other, a receipt line that prints. One text layer per moment; the hook text is fully readable at frame 0 (no karaoke on the opening line).
+
+**Paid ads (Reels/Stories ads)** differ from organic Reels:
+- The message is already on frame 0 (call-out or offer), brand visible within 3 s, sound-off readable (burned-in word captions), one offer, one CTA that points at the platform's own button ("press the button below").
+- Ad safe zones are stricter: keep key content out of the top ≈14 % (270 px) and bottom ≈35 % (670 px) of 1080×1920, and ≈6 % at the sides.
+- 9:16, 12–20 s, a hard visual change every 2–4 s (flat colour fields, wipes), language variants composed per language (text length differs), not subtitled copies.
+
+**Covers and frame 0** — never splice a different "poster" frame in as frame 0 (it flashes for one frame and the next frame looks different); make frame 0 a good cover, or deliver a separate cover image for upload.
+
+**Ask, don't assume, what the ending says** — the domain/brand on the end card must be the one the client wants (an umbrella brand vs. a sub-product domain), and the CTA must match how sign-up really works (application vs. self sign-up).
+
 ## Reference files
 - `references/tells.md` — the research-backed list of slop tells with sources; read it when you need to explain a rule to the user or add a new one.
 - `references/qa-checklist.md` — the pass/fail gate to run before every delivery (copy it into your reply as a table with ✓/✗ per item).
+- `../pro-video-production/scripts/motion_qa.py` — frame-difference check for dead frames (> 0.5 s) and jumps; run on every render.
 - `scripts/lint_copy.py` — run on script files (JSON `{id:{"lines":[...]}}` or plain text, one video per file): flags banned phrases, duplicate openers/endings across a batch, metronome line lengths, missing specifics, exclamation spam. Usage: `python scripts/lint_copy.py content.json [more files]`.

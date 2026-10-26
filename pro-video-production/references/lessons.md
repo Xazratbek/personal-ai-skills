@@ -26,3 +26,17 @@ From a real 11-video batch that was rejected four times before approval. Format:
 15. `pkill -f "<pattern>"` killed the calling shell; a `pgrep -f` watchdog matched itself forever → match process names.
 16. A service stopped for rendering must come back → `trap` + detached guard.
 17. Client reviewed an outdated cut → delete superseded files; send each new one with its path.
+
+## Second batch (RestoGo, 9 videos, RU + UZ, 2026-10)
+18. **"Fix the Uzbek speaker's accent"** → the ASR "accent score" (o→a, q→k substitutions in a literal whisper transcript) flagged native Uzbek [ɒ] and [w] as errors, and Scribe normalised everything to ≈0.99 → numbers could not decide. Fix: proper orthography (ʻ U+02BB, numbers as words, `language_code`), numbered A/B samples to the native listener, build voice-independent work while waiting.
+19. **Brand domain heard as "restoga"** → vowel reduction in context; a respelling that fixed an isolated test line failed in the full take → test respellings inside the full script and keep the domain big on screen.
+20. **Text ghosting on fast scrolls** ("double letters") → box-averaged sub-frames + ease-out-quint scroll (infinite start velocity) → tent-weighted sub-frames, ≥16 samples, sine in-out scroll.
+21. **Kinetic chunks overlapping** → the outgoing chunk still animating out when the next word landed → exit finishes before the next word's landing time.
+22. **One-frame flash at the start** → a different poster frame spliced in as frame 0 → make frame 0 the cover or deliver a separate cover image.
+23. **Receipt + stamp used in two videos of one batch** → template feel across the batch → keep a batch ledger of signature devices.
+24. **Wrong domain on the end card** → the sub-product domain was used while the client wanted the umbrella brand → confirm the ending (domain, CTA) before rendering.
+25. **Stale facts in assets** → the site's social preview still said "14 days free" while the product gave 30 → verify every claim against current code/site, not old assets.
+26. **A public phone number inside a captured landing section** → re-frame captures so no phone numbers or personal data appear.
+27. **Hand-drawn phones** → the client asked for real device assets → maker bezels (Apple Product Bezels), screen under the bezel; licence: mock-ups only, never committed.
+28. **Music bed only 12 dB under the voice** in a code-made groove → measured VO−music RMS on voiced samples and deepened the duck to ≥15 dB.
+29. **Dev servers gone after a container restart** → capture scripts failed with connection refused → check/restart servers before every capture session.

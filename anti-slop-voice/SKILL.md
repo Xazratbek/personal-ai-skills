@@ -25,14 +25,22 @@ Details, sources and the extra tells are in `references/tells.md`.
 
 ## Workflow
 
-1. **Write for the ear.** Short lines, one idea each, varied length, a question somewhere, numbers written as the voice should say them. No hype words. Mark hard words for phonetic spoken text. (See also the `anti-slop-video` skill for script rules.)
-2. **Pick the engine by measurement, not by brand.** Generate the same 2-sentence test line on 3–5 candidates, run `scripts/voice_qc.py` on all of them, then listen (or ask the user to listen). Native language + low flatness + healthy F0 spread + correct ASR wins. Engine notes and CPU timings: `references/engines.md`.
-3. **Lock one brand voice.** Create one reference per voice role (e.g. female / male / calm male), 10–15 s, brisk conversational read, and clone every line from it. Never let each line pick a random voice.
-4. **Generate line by line with QC.** Per line: generate → ASR match ≥ 0.92 and speech-rate window (Russian ≈ 3.6–6.6 syllables/s) → otherwise new seed, keep the best of N (3 is enough).
-5. **Post-process without damage** (one pass, deterministic, from the raw take): soxr resample → studio chain → trim → tighten internal pauses. No speed variation, no fake breaths. Chain: `references/mix-chain.md`.
-6. **Assemble with natural gaps**, then build caption timing from ASR word timestamps aligned to the script words (not from character-count guesses), so karaoke captions land on the real syllables.
-7. **Mix:** VO is king. Music bed ducked 10–15 dB under speech (fast attack ~50 ms, release ~400 ms), SFX on real on-screen events, constant low room tone, final −14 LUFS integrated, true peak ≤ −1 dBTP.
-8. **QA gate** (`references/qa-checklist.md`) — run `scripts/voice_qc.py --text` on every final line and on the final mix; report pass/fail honestly. If you cannot listen, say so and ask the user for a 10-second listen of one line before batch-rendering everything.
+1. **Write for the ear.** Short lines, one idea each, varied length, a question somewhere, numbers written as the voice should say them (spoken text) while captions keep digits. No hype words. Mark hard words for phonetic spoken text. (See also the `anti-slop-video` skill for script rules.)
+2. **Estimate cost first.** Characters × takes (+ ASR minutes); read the remaining quota (`GET /v1/user/subscription` on ElevenLabs) and say the number before spending. Check which output formats and voices the plan allows (Starter: `mp3_44100_128`, library voices OK; 192 kbps/PCM need a higher tier).
+3. **Pick the engine and voice by measurement, then by ear.** Same 2-sentence test on 3–5 *native* candidates → `scripts/voice_qc.py` → send the person **numbered samples** ("1_name.mp3 … 5_name.mp3") and ask for a number. While waiting, build everything that does not depend on the voice (see step 6), but do not run the final render.
+4. **Generate the whole script as one continuous take** (one request; 2–3 seeds), with word/character alignment. Line-by-line synthesis resets the melody every sentence and makes a metronome even with a premium model. Line-by-line only as a fallback for engines without long-form input (then gaps by punctuation, below).
+5. **Choose the take**: ASR match (`autojunk=False`), pace, onset ≤ 0.2 s, F0 spread, max inner pause; then check the brand/domain words and the first word specifically (`scripts/asr_check.py --expect`).
+6. **Drive the picture from the take.** Word times from the engine alignment (or ASR word timestamps) feed every scene start, caption word and SFX cue, so swapping the voice later is a re-run, not a re-edit. Map spoken forms to caption forms explicitly (`"300 000" ↔ "uch yuz ming"`, `"30" ↔ "o'ttiz"`, `"restogo.uz" ↔ "restogó nuqta uz"`).
+7. **Post-process only what needs it.** A premium continuous take: one soxr resample, nothing else — no EQ chain, no pause tightening. Raw local/cheap engines: the gentle studio chain in `references/mix-chain.md`. Never speed variation, never fake breaths.
+8. **Mix:** VO is king. Music ducked so it sits **≥ 15 dB under the voice while words are spoken** (measure it: RMS of VO vs music over voiced samples), back up between sentences; SFX on real on-screen events; constant low room tone; −14 LUFS integrated, true peak ≤ −1 dBTP (−1.5 for safety through AAC). Loudness normalisation must not squash the voice (two-pass linear loudnorm, no brick-wall limiter driving).
+9. **QA gate** (`references/qa-checklist.md`) — report pass/fail honestly and name what nobody has listened to yet.
+
+## Languages with weak ASR (Uzbek, Kazakh, Tajik, …)
+Field notes from an Uzbek batch (ElevenLabs `eleven_v4`, native library voices):
+- **ASR cannot grade an accent.** Whisper's literal transcript spells Uzbek with Turkic/Russian habits ("sawal", "kerek", "alasiz"), because Uzbek *o* is [ɒ] and *v* is often [w] — counting "o→a" substitutions flags native speech as accented. Scribe (`language_code=uzb`) "corrects" everything to ≈0.99 and hides real problems. Use ASR for *wrong words*, and the native listener for *accent*.
+- **Write the language properly for the model:** Uzbek Latin with the modifier letter turned comma `ʻ` (U+02BB) in *oʻ / gʻ* (not ASCII `'`, which some models treat as a pause or quote), `language_code` set, numbers as words, no Cyrillic/Latin mixing in one script.
+- **Brand and domain words get reduced vowels** in context ("restogo" → "restago"). Test respellings *inside the full sentence*, not in isolation (an isolated fix often fails in the continuous take): stress marks (`restogó`, `Rèstogó`), hyphenation, splitting into words. If no spelling survives the continuous take, keep the most natural read and make the on-screen domain big and early — and tell the person.
+- Library voices for smaller languages are few (Uzbek: male only, 107–123 wpm): accept a slower pace instead of time-stretching, and write shorter lines.
 
 ## When synthetic is not enough
 Measured cleanliness is not naturalness. In a real batch, a clean local clone (Qwen3-TTS 0.6B on CPU, flatness 0.008, F0 SD 4.7, 142 wpm, ASR 1.0) was still rejected by the listener for **intonation and pacing**: per-line generation resets the melody every sentence, and a designed (synthetic) reference carries its own slow, announcer-like delivery into every clone. If the listener says it still sounds AI-made:
@@ -42,7 +50,7 @@ Measured cleanliness is not naturalness. In a real batch, a clean local clone (Q
 - If staying synthetic: generate a whole video's script in one pass (continuous prosody) instead of line by line, and clone from a real consenting human reference rather than a designed voice.
 
 ## Hard rules
-- **Get a human listen on one finished line before batch-rendering videos.** Wait for the answer; do not start the render "in the meantime".
+- **Get a human listen on one finished line before batch-rendering videos.** Wait for the answer; do not start the final render "in the meantime" (voice-independent work — captures, sprites, layouts, draft renders for motion QA — is fine and keeps the wait cheap).
 - Never time-stretch or resample generated speech to make it "vary" or to fit a timeline. Fit the timeline by editing the script or the visuals.
 - Never add synthetic breath noise.
 - Never mix a non-native speaker preset into a language-specific product video.

@@ -1,0 +1,31 @@
+# Pre-delivery QA gate (report per video as a ✓/✗ table)
+
+Run first: `scripts/lint_copy.py` on the script; `scripts/voice_qc.py --text "<script>" vo.wav` if there is a voice; `ffmpeg -i final.mp4 -af ebur128=peak=true -f null -`; a 6-frame contact sheet (`ffmpeg -ss T -frames:v 1` + `magick f*.png -resize x700 +append sheet.jpg`).
+
+## A. Script
+1. Spoken register; would a real person say it aloud?
+2. ≥1 concrete specific; no invented stats/counts/testimonials.
+3. Linter clean; hook archetype and closing line unique in the batch.
+4. CTA present; brand name spoken only if allowed.
+
+## B. Voice (if any)
+5. Native licensed voice, same per role across the batch; a new voice has had a human listen.
+6. One continuous take, unprocessed except one resample.
+7. ASR ≥0.95, pace in window, onset ≤0.2 s, first word correct.
+8. No breathy/intimate tags.
+
+## C. Picture
+9. No default AI aesthetics; palette/type with a reason.
+10. Real product UI/footage; no generated faces/hands or gibberish.
+11. One text layer per moment; captions match speech word-for-word; safe zones respected.
+12. ≥4 compositions; transitions vary; no dead frames, flicker or jumps.
+13. Each aspect ratio composed for itself (9:16 and 16:9 are separate layouts).
+
+## D. Sound and file
+14. Music ducked under voice (or cut to the beat if no voice); SFX only on real events.
+15. −14 LUFS ±1, true peak ≤ −1 dBTP; correct resolution/codec.
+
+## E. Delivery and honesty
+16. Sent with absolute path; superseded versions deleted; sources committed.
+17. State what was measured vs. heard/seen; ask one outside viewer "does anything feel fake or AI-made?".
+18. Any service stopped for rendering is running again.

@@ -2,6 +2,10 @@
 
 Run first: `scripts/lint_copy.py` on the script; `scripts/voice_qc.py --text "<script>" vo.wav` if there is a voice; `ffmpeg -i final.mp4 -af ebur128=peak=true -f null -`; a 6-frame contact sheet (`ffmpeg -ss T -frames:v 1` + `magick f*.png -resize x700 +append sheet.jpg`).
 
+## 0. Before the expensive render
+0a. New concept approved from a brief/styleframes (not only a name); contact sheet reviewed; automated layout check (text vs heroes) passes.
+0b. Rights log complete (fonts, photos, device frames, map credit on screen, music/voice plan allows commercial use); demo data disclosed.
+
 ## A. Script
 1. Spoken register; would a real person say it aloud?
 2. ≥1 concrete specific; no invented stats/counts/testimonials.

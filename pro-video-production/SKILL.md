@@ -21,6 +21,16 @@ Every delivered video is full quality: native resolution, the agreed frame rate,
 7. **QA gate** `references/qa-gate.md` as a ✓/✗ table; state plainly what you measured vs. what a human heard/saw.
 8. **Deliver**: send the file with its absolute path, delete superseded versions so nobody reviews an old cut, commit/push sources.
 
+## Approval loop (cheap before expensive)
+Renders take hours; a misunderstood idea wastes all of them. Every step that costs time or money is preceded by a cheap look the person can approve:
+- **New concept → a one-page brief/PDF first** (concept in one sentence, beat sheet with timings, the script, a styleframe or two), built only after a yes. A concept *word* is ambiguous — "a ring", "a machine", "a line" — the person may picture something else, so show the picture, not the word.
+- **Before the full-quality render:** a contact sheet (one still per ~1 s) and a short low-res motion preview, checked by you against the QA gate *and* shown to the person when the idea is new. Fix layout collisions, cut-off elements and dead holds here, not after a two-hour render.
+- **After the render:** sample frames from the delivered file itself (not the renderer) at every transition and every number/counter moment; a defect caught here costs one more render — still cheaper than the person finding it.
+- Adapting a reference (a PDF prompt, another brand's film): keep its *structure and craft* (one continuous motif, pacing, camera grammar), never its brand, copy or assets; map every beat to a real feature of this product.
+
+## Rights and licences log
+Keep one table per project: every font, photo, device frame, map, music track, SFX pack and voice, with source, licence and any on-screen credit it requires (e.g. map data "© OpenStreetMap contributors" in the frame; CC BY sounds credited in the description). Check the voice/music provider's plan allows commercial and paid-ad use before a video is promoted. Disclose demo/sample data on screen when the UI shows a demo account.
+
 ## Script rules
 - **Humanize every script** (see `anti-slop-video` → Script humanizer): complete natural sentences in the language's own word order; no English-ad fragment chains ("Foiz — nol. Bir so'm ham."); native read-through before voicing.
 - **Spoken, not written.** Polished ad lines ("One tap. You're in.") read as AI copy even with a perfect voice. Write how the target viewer talks to a friend: informal address when the audience is young, run-on sentences, a reaction, a fragment, a question. Read it aloud; if nobody would say it, rewrite it.
@@ -83,7 +93,10 @@ Every delivered video is full quality: native resolution, the agreed frame rate,
 - If you stop a system service to free CPU for a render, restore it with a `trap` *and* a detached guard.
 - Ask before spending money (paid TTS tiers, stock) and before deleting; estimate API credits (characters × takes) before generating.
 - **Make the project portable**: relative paths only (no `/home/<user>/…`), every render input (sprites, screenshots, fonts, device frames, voice takes, mixes as FLAC, final videos) in the project's private repo, one script that renders on another machine (`python -m venv .venv` + `pip install --isolated …` — a user pip config with `user = true` otherwise breaks venv installs). Keep render outputs and segment folders out of git; keep the repo out of the app's Docker build context (`.dockerignore`).
-- Check external API keys/credits with one cheap call before a step depends on them, and report a failure immediately.
+- Check external API keys/credits with one cheap call before a step depends on them, and report a failure immediately. Respect provider concurrency limits (e.g. low-tier TTS plans allow ~3 parallel requests — a burst returns 429): generate takes sequentially or in a small pool.
+- Agent tool calls have time limits (background shell tasks are killed after ~2 h): start renders with `setsid nohup … &` and a small pipeline script that finishes the job on its own (mux → QA → cover → copy to repo → commit/push), and watch it with a log monitor; after a container/worker restart, check what is still running before relaunching anything.
+- Delivery size limits: chat/upload tools cap files (≈500 MB) — split archives by folder; GitHub warns above 50 MB and rejects files above 100 MB — keep single videos under that (CRF 17–19 at 1080p, 30–35 s ≈ 40–90 MB) or use Git LFS.
+- Keep the app's own repo lean: video sources live in their own folder excluded from the app's Docker build context; generated segments and intermediate renders stay out of git.
 - Containers restart: before a capture session check that the local app servers are still up; keep capture scripts re-runnable.
 - Playwright captures: write HTML to a temp file and `goto file://` (inline `setContent` won't load local fonts/images); element screenshots with transparent backgrounds by clearing the surrounding backgrounds; fix clock and time zone; the app's UI language may come from the user profile, not the browser locale.
 

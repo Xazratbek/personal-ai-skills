@@ -12,7 +12,7 @@ Why these rules exist: generators drift to the most common pattern in their trai
 ## Workflow
 
 1. **Brief before building.** Write down (3–6 lines): who exactly watches, the one concrete situation, the hook archetype, the 2–3 specific details (place, time, number, real UI state), the look (palette + type + one distinctive visual idea), the unique closing line. If you cannot name a detail only *this* product/city has, you are not ready to write.
-2. **Build with the rules below.**
+2. **Get the concept approved cheaply** (one-page brief/styleframes; contact sheet before the full render — see `pro-video-production` → Approval loop), then **build with the rules below.**
 3. **Run the QA gate** (`references/qa-checklist.md`) and the copy linter (`scripts/lint_copy.py`). Fix every failure; do not deliver with known fails.
 4. **Say honestly what you could not verify** (e.g. you cannot hear audio; stills are not motion). Ask for one outside viewer pass: "does anything feel fake or AI-made?"
 

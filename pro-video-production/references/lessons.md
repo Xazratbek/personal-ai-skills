@@ -27,7 +27,7 @@ From a real 11-video batch that was rejected four times before approval. Format:
 16. A service stopped for rendering must come back → `trap` + detached guard.
 17. Client reviewed an outdated cut → delete superseded files; send each new one with its path.
 
-## Second batch (9 videos for a restaurant-ordering SaaS, RU + UZ)
+## Second batch (9 videos for a SaaS product, RU + UZ)
 18. **"Fix the Uzbek speaker's accent"** → the ASR "accent score" (o→a, q→k substitutions in a literal whisper transcript) flagged native Uzbek [ɒ] and [w] as errors, and Scribe normalised everything to ≈0.99 → numbers could not decide. Fix: proper orthography (ʻ U+02BB, numbers as words, `language_code`), numbered A/B samples to the native listener, build voice-independent work while waiting.
 19. **Brand domain heard with a wrong final vowel** → vowel reduction in context; a respelling that fixed an isolated test line failed in the full take → test respellings inside the full script and keep the domain big on screen.
 20. **Text ghosting on fast scrolls** ("double letters") → box-averaged sub-frames + ease-out-quint scroll (infinite start velocity) → tent-weighted sub-frames, ≥16 samples, sine in-out scroll.

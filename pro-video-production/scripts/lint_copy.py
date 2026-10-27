@@ -6,9 +6,9 @@ Input: one or more files. Each is either
   * plain text, one script per file, one line per row.
 Checks: banned hype/filler phrases, duplicate openers/endings across the batch, metronome line lengths,
 missing specifics (digits/times/places), exclamation spam, near-duplicate lines between videos.
-Exit code 1 if any FAIL, 0 otherwise. Usage: python lint_copy.py content.json [more files]
+Exit code 1 if any FAIL, 0 otherwise. Usage: [LINT_PLACES="Place|Brand"] python lint_copy.py content.json [more files]
 """
-import json, re, statistics, sys
+import json, os, re, statistics, sys
 from pathlib import Path
 
 BANNED = [
@@ -22,7 +22,10 @@ BANNED = [
     r"\bnoyob\b", r"\beng yaxshi\b", r"\bajoyib\b", r"\bbeqiyos\b",
 ]
 BANNED_RE = re.compile("|".join(BANNED), re.I)
-SPECIFIC_RE = re.compile(r"\d|[А-ЯA-Z][а-яa-z]{3,}.*(ар|ад|ов|ев|ск)", re.U)
+# concrete specifics: digits/times/prices or a proper name mid-sentence (any alphabet); add your own places/brands via
+# LINT_PLACES="Place1|Place2" (regex) so the linter works for any city and project
+_PLACES = os.environ.get("LINT_PLACES", "").strip()
+SPECIFIC_RE = re.compile(r"\d|(?<=[\w,;:] )[A-ZА-ЯЁЎҚҒҲ][\w'ʻ’-]{2,}" + (f"|{_PLACES}" if _PLACES else ""), re.U)
 
 
 def load(path: Path):

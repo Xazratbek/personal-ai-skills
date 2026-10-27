@@ -64,6 +64,11 @@ Every delivered video is full quality: native resolution, the agreed frame rate,
 - **Kinetic type**: chunks of 2–4 words that replace each other; each word lands on its spoken time; the outgoing chunk must be fully gone before the next word lands, or two text layers overlap. Cut word sprites from a render of that word alone (others hidden), never from the multi-line render — tight line-height makes crops catch the neighbouring line's letters.
 - Continuous effects (glare sweeps, glows, gradients) are computed per frame from a continuous parameter; a small table of precomputed phases reads as stutter.
 
+## Launch films
+- Build the film from the product's own design language and real sounds (its notification/success sounds), not a stock UI montage; one deadpan joke or metaphor carried through.
+- Deliver narrated **and** music-only versions, each composed for 9:16 and 16:9; the music-only cut is edited to the beat with on-screen type carrying every claim.
+- Ship with each file: post copy (caption, hashtags, alt text, demo-data disclosure) and a cover, in a description file named after the video.
+
 ## Sound rules
 - Music sits ≥15 dB under the voice *while words are spoken* (measure VO vs music RMS on voiced samples) and comes back up between sentences; with no voice, music carries the edit — cut to its beats. Lay the music grid so a downbeat lands on the biggest visual hit; cut it for a "drop" and restart on a new downbeat.
 - Original music can be written in code when licensing matters (`references/music-in-code.md`): plucked strings (Karplus-Strong), pads, sub bass, drums, reverb — arranged around the cue list, ending on a chord that rings under the end card.

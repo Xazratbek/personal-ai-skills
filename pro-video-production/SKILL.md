@@ -7,6 +7,9 @@ description: Universal end-to-end guide for making short-form and launch videos 
 
 Viewers decide "this is AI" within two seconds, and the decision is triggered by a small set of specific tells — most of them introduced by *our own pipeline defaults*, not by the model. The person you work for often can't name the defect ("hard to put into words"); this skill turns those vague verdicts into concrete causes. It folds together `anti-slop-video` and `anti-slop-voice` plus lessons from a real batch that was rejected four times before it was approved.
 
+## Quality bar (non-negotiable)
+Every delivered video is full quality: native resolution, the agreed frame rate, full motion-blur sub-frames on fast moves, a high-quality encode (x264 `-preset slow -crf 17–19`, `yuv420p`, AAC 256k, `+faststart`). **Never trade quality for render time** — no fewer sub-frames, lower resolution/fps/bitrate, dropped effects or "draft" encodes in a deliverable — unless the person explicitly approves it. If a render is slow: parallelise (frame segments across cores), run it detached, schedule follow-ups, and say how long it will take.
+
 ## Workflow
 
 1. **Brief before building** (3–6 lines): who watches, the one concrete situation, the hook archetype, 2–3 specifics only this product/place has (names, times, numbers, real UI states), the look, a unique closing line, and the format(s) (9:16, 16:9, 1:1). If you cannot name a specific detail, you are not ready to write. For a spec ad or anything with a client brief template, write it to a file (`brief/PROMPT.md`: concept, beat sheet with timings, script, voice, music, SFX plan, assets list with licences) — see `references/spec-ad.md`.
@@ -44,8 +47,11 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 - No default AI aesthetics: purple/violet→blue gradients, glow blobs, cyan-on-dark, glassmorphism, gradient text, emoji headlines, three-icon grids, everything centred.
 - A palette with a reason (place, culture, product), flat colour fields, bold geometry, hard-offset shadows, grain; one display face + one accent face chosen for the script's language coverage.
 - Real product (captured UI at device resolution, real data) and real people/places (own or licensed footage). Never generated faces/hands, no gibberish text.
-- Real devices, never hand-drawn: the maker's device frames (Apple Product Bezels) with the screen composited under the bezel at the measured opening; respect the licence (mock-ups only, don't commit or redistribute the PNGs — ship a download script).
+- Real devices, never hand-drawn: the maker's device frames (Apple Product Bezels) with the screen composited under the bezel at the measured opening; respect the licence (mock-ups only, no redistribution: a *private* project repo may hold the PNGs so the team can render; a public repo gets a download script instead). Device shadows come from the device's real silhouette (alpha), not the PNG rectangle.
 - Fonts: check the licence for video/ads (SF Pro is licensed only for Apple-platform mock-ups) — prefer the brand's own fonts or OFL faces with full coverage of the script's language (Uzbek ʻ, Cyrillic).
+- **Zones, checked by code.** A reserved text zone that heroes never enter while text is visible; nothing (device, card, decorative ball) passes over or under a caption. Register every element's box per frame and fail on text/hero intersections (`qa` pass at 30 samples/s) — eyeballing a contact sheet misses fast overlaps.
+- **Believable 2.5D:** no flat object threaded through a ring, no fans of overlapping device copies; lifted elements cast soft alpha shadows and leave their spot empty on the screen.
+- Display type: explicit line breaks and a no-break space before dashes so nothing wraps into a lone word or dash.
 - **One text layer per moment.** Headline + kicker + sticker + karaoke caption at once is a template tell the viewer reads as "AI-made" even without naming it.
 - Each video in a batch gets its own dominant colour, layout and device angle inside one system.
 - 9:16 safe zones: keep key content out of the top ~220 px and bottom ~420 px of 1080×1920. 16:9 is not a stretched 9:16 — recompose for the wide frame (side-by-side UI, wider type, longer holds).
@@ -71,6 +77,8 @@ Viewers decide "this is AI" within two seconds, and the decision is triggered by
 - Don't edit a shell script while bash is running it.
 - If you stop a system service to free CPU for a render, restore it with a `trap` *and* a detached guard.
 - Ask before spending money (paid TTS tiers, stock) and before deleting; estimate API credits (characters × takes) before generating.
+- **Make the project portable**: relative paths only (no `/home/<user>/…`), every render input (sprites, screenshots, fonts, device frames, voice takes, mixes as FLAC, final videos) in the project's private repo, one script that renders on another machine (`python -m venv .venv` + `pip install --isolated …` — a user pip config with `user = true` otherwise breaks venv installs). Keep render outputs and segment folders out of git; keep the repo out of the app's Docker build context (`.dockerignore`).
+- Check external API keys/credits with one cheap call before a step depends on them, and report a failure immediately.
 - Containers restart: before a capture session check that the local app servers are still up; keep capture scripts re-runnable.
 - Playwright captures: write HTML to a temp file and `goto file://` (inline `setContent` won't load local fonts/images); element screenshots with transparent backgrounds by clearing the surrounding backgrounds; fix clock and time zone; the app's UI language may come from the user profile, not the browser locale.
 

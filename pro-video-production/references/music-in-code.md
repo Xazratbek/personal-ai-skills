@@ -1,8 +1,8 @@
 # Original music in code (numpy + scipy)
 
 Use when stock/AI music licensing is unclear or the cut needs music that hits exact cue times. It will not beat a composer, but
-arranged to the picture and ducked under a voice it reads as a deliberate bed. Reference implementation: RestoGo
-`marketing/video/engine/music_gen.py`.
+arranged to the picture and ducked under a voice it reads as a deliberate bed. The recipe below is enough to
+write a `music_gen.py` module from scratch.
 
 ## Building blocks (48 kHz mono buses → stereo)
 - **Plucked strings** — Karplus-Strong: a filtered noise burst through a delay line with feedback (`scipy.signal.lfilter([1], a)`

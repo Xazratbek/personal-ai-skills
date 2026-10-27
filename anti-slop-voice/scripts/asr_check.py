@@ -2,7 +2,7 @@
 """ASR round-trip for a finished take: transcript, match against the script, and must-hear words (brand, domain, numbers).
 Uses ElevenLabs Scribe (ELEVENLABS_API_KEY) and, if installed, faster-whisper for a second, literal opinion.
 
-  python asr_check.py take.mp3 --text "full script" --lang uz --expect restogo --expect "uch yuz ming"
+  python asr_check.py take.mp3 --text "full script" --lang uz --expect brandname --expect "uch yuz ming"
 
 Scribe "normalises" spelling, whisper is literal and biased toward big languages: a word both hear is safe; a word only one
 hears needs a human listen. Never grade an accent with this — only wrong or missing words."""

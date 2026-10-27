@@ -24,7 +24,7 @@ Notes
 |---|---|---|---|---|---|
 | Artem K | ru | 140–153 | 5.1–5.9 | 0.018–0.022 | Ad read; approved. |
 | Vika Grib | ru | 133–140 | 4.2–4.5 | 0.010 | Calmer, slower. |
-| Davronbek (journalist) | uz | 120–125 | 6.2–7.2 | 0.014–0.015 | Liveliest Uzbek library voice; brand words reduced ("restogo"→"restago"). |
+| Davronbek (journalist) | uz | 120–125 | 6.2–7.2 | 0.014–0.015 | Liveliest Uzbek library voice; short brand words get reduced vowels in context (test inside the full take). |
 | Asilbek, Mirzaev, Mirzabek, Shohjahon | uz | 107–116 | 4.2–6.9 | ≤ 0.015 | Slower; pick by native ear. |
 - `POST /v1/text-to-speech/{id}/with-timestamps` returns per-character alignment (tags and combining marks included) — use it for word timing.
 - Music API (`/v1/music`, composition plan): every section ≥ 3000 ms or HTTP 422; returns the plan's length ± 0.1 s; analyse energy before trusting the section map.

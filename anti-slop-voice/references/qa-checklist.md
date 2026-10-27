@@ -19,9 +19,13 @@ Run `python scripts/voice_qc.py --json lines.json` on the final processed lines 
 10. No clipping; single high-quality resample to delivery rate.
 
 ## D. Mix
-11. Music ducked 10–15 dB under VO; every word intelligible on a phone speaker.
+11. Music ≥ 15 dB under the VO while words are spoken (measured), back up between sentences; every word intelligible on a phone speaker.
 12. SFX on real on-screen events.
 13. −14 LUFS integrated (±1), true peak ≤ −1 dBTP.
+
+## D2. Words that must be heard
+11a. Brand, domain, prices and numbers checked with `scripts/asr_check.py --expect …` *in the final take* (not in an isolated test line).
+11b. Weak-ASR language: accent confirmed by a native listener on numbered samples, not by ASR metrics.
 
 ## E. Honesty
 14. State what was measured vs. what was listened to. If nobody has listened yet, say so and ask for a 10-second listen before the batch render.

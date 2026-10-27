@@ -80,7 +80,7 @@ def analyse(path, text, lang, use_asr, asr_model):
             y16, _ = load(path, 16000)
             seg, _ = asr_model.transcribe(y16, language=lang, beam_size=5)
             hyp = " ".join(s.text for s in seg)
-            m = difflib.SequenceMatcher(None, norm(text), norm(hyp)).ratio()
+            m = difflib.SequenceMatcher(None, norm(text), norm(hyp), autojunk=False).ratio()
             res["asr"] = round(m, 2)
             if m < 0.92: reasons.append(f"FAIL ASR mismatch {m:.2f}: {hyp.strip()!r}")
     res["verdict"] = "FAIL" if any(x.startswith("FAIL") for x in reasons) else ("WARN" if reasons else "PASS")

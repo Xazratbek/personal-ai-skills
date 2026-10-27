@@ -26,3 +26,34 @@ From a real 11-video batch that was rejected four times before approval. Format:
 15. `pkill -f "<pattern>"` killed the calling shell; a `pgrep -f` watchdog matched itself forever → match process names.
 16. A service stopped for rendering must come back → `trap` + detached guard.
 17. Client reviewed an outdated cut → delete superseded files; send each new one with its path.
+
+## Second batch (9 videos for a SaaS product, RU + UZ)
+18. **"Fix the Uzbek speaker's accent"** → the ASR "accent score" (o→a, q→k substitutions in a literal whisper transcript) flagged native Uzbek [ɒ] and [w] as errors, and Scribe normalised everything to ≈0.99 → numbers could not decide. Fix: proper orthography (ʻ U+02BB, numbers as words, `language_code`), numbered A/B samples to the native listener, build voice-independent work while waiting.
+19. **Brand domain heard with a wrong final vowel** → vowel reduction in context; a respelling that fixed an isolated test line failed in the full take → test respellings inside the full script and keep the domain big on screen.
+20. **Text ghosting on fast scrolls** ("double letters") → box-averaged sub-frames + ease-out-quint scroll (infinite start velocity) → tent-weighted sub-frames, ≥16 samples, sine in-out scroll.
+21. **Kinetic chunks overlapping** → the outgoing chunk still animating out when the next word landed → exit finishes before the next word's landing time.
+22. **One-frame flash at the start** → a different poster frame spliced in as frame 0 → make frame 0 the cover or deliver a separate cover image.
+23. **Receipt + stamp used in two videos of one batch** → template feel across the batch → keep a batch ledger of signature devices.
+24. **Wrong domain on the end card** → the sub-product domain was used while the client wanted the umbrella brand → confirm the ending (domain, CTA) before rendering.
+25. **Stale facts in assets** → the site's social preview still said "14 days free" while the product gave 30 → verify every claim against current code/site, not old assets.
+26. **A public phone number inside a captured landing section** → re-frame captures so no phone numbers or personal data appear.
+27. **Hand-drawn phones** → the client asked for real device assets → maker bezels (Apple Product Bezels), screen under the bezel; licence: mock-ups only; PNGs only in a private repo (see 43).
+28. **Music bed only 12 dB under the voice** in a code-made groove → measured VO−music RMS on voiced samples and deepened the duck to ≥15 dB.
+29. **Dev servers gone after a container restart** → capture scripts failed with connection refused → check/restart servers before every capture session.
+30. **"The glare over the phone isn't smooth, it stutters"** → the specular sweep picked one of 32 precomputed phases → compute continuous effects per frame (or interpolate), never step through a small table.
+31. **"Tips of the letters below show under the line"** → word sprites cropped from a multi-line text render; the span box (≈1.2 em) is taller than the line height (1.04 em), so each crop caught the next line's ascenders/accents → render each word alone (others `visibility:hidden`, same layout) and crop from that.
+32. **"Shuu-shirr" on every transition got on the client's nerves** → a noise whoosh on each title and cut → tonal, soft transition sounds in the music's key; 1–2 whooshes max on real big moves.
+33. **A literally translated slogan chain ("Zero commission. Not a cent.") sounded illogical/AI-written** → English slogan fragments translated literally → humanizer pass: complete sentences as a native speaker says them, native read-through before voicing.
+
+## Third round (re-work of two concept videos)
+34. **"You lowered the quality to render faster?"** → sub-frames were cut 10→6 without asking → quality is fixed; parallelise and wait, or ask first.
+35. **"What is that grey thing behind the phone?"** → the phone's shadow was a hard-edged quad of the whole bezel image → shadows from the device's real silhouette, soft and offset with the lift.
+36. **"The phone inside the ring looks strange; the screens run into each other"** → a flat device threaded through a 3D ring with faked depth sorting, plus six copies of the phone fanned over it → no interpenetrating 2.5D objects, no fans of copies; one hero per moment.
+37. **"The ball hides the words"** → a decorative dot travelled along a line of text → automated per-frame text/hero intersection check, decorative elements routed around text.
+38. **Captions printed over machine parts in a camera-follow scene** → the camera kept the active part at frame centre, so earlier parts scrolled through the caption band → frame the action below the text zone and give the text zone its own solid band the scene passes under.
+39. **Big intro type wrapped by itself** ("buyurtma — bu" on one line, a lone dash elsewhere) → explicit line breaks for display type and a no-break space before dashes.
+40. **"The concept is fine but the execution isn't — use other animation"** → patching single defects would have kept the weak device → rebuilt the sequence: real UI elements lift out of the phone in 3D (soft alpha shadow, empty spot left on screen), colour-block and iris wipes between scenes, slot-style counter, stamped badge with confetti, annotation circles drawn on a real admin table, chat bubbles stacking.
+41. **"A short loanword sounds foreign"** ("bot" inside Uzbek speech) → list loanwords/brand words and listen to each in the full take before locking the picture; re-voice re-times automatically when the picture is driven by alignment.
+42. **TTS key stopped working mid-project** → found only when a re-voice was needed → check keys/credits with one cheap call at the start of each session and report at once.
+43. **"I can't render it on my Mac — assets are missing"** → device frames and render inputs were kept out of git, paths were absolute, and `pip install` failed on a `user = true` config → private repo holds every input, relative paths, `pip install --isolated`, one render script per video.
+44. **Several deliverables, hard to match files to descriptions** → each video's description file carries the video's own file name (`<video>.md` next to `<video>.mp4`), and the bundle is one zip.

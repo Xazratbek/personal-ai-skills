@@ -41,9 +41,48 @@ Why these rules exist: generators drift to the most common pattern in their trai
 - Hard-to-read words get phonetic spellings in the *spoken* text only (keep the caption spelling): e.g. IELTS → "айэлтс", speaking → "спикинг". Run every line through an ASR round-trip and re-synthesise lines that don't match.
 - Never say the brand/bot name if the user said not to; point to "link in profile/description" instead.
 
+**Transition sounds — no whoosh carpet.** A noise "shuu / shirr" on every cut or text entrance is one of the loudest template tells and, by the client's own words, gets on people's nerves. Rules:
+- At most one or two noise whooshes per video, and only on a genuinely big physical move (a device flying in). Never on text, captions, screen changes or every scene start.
+- Default transition sounds are **tonal and soft**: a mallet/marimba note in the music's key (pentatonic so anything fits), a muted wood tap, a low soft thump with no click, a small bell on a success moment, a note from the music itself, or simply silence on the cut. Keep them −20…−30 dB under the voice.
+- Library sounds: audition before use; prefer soft organic UI sets (Kenney UI/Interface — CC0; Google Material Design sound resources — CC BY 4.0, credit them) over "cinematic whoosh" packs.
+
+**Script humanizer (do this pass on every script, every language).** AI copy gives itself away with punchy fragment chains copied from English ad templates ("Zero. Not a cent." → "Har buyurtmadan foiz — nol. Bir so'm ham.") that a native speaker would never say. Before voicing:
+- Each sentence is a complete thought in natural word order for the language (Uzbek/Turkic: verb at the end; Russian: no calques from English). No dangling dashes or one-word sentences unless a person would really say them.
+- Say it the way the target viewer talks to a colleague: "Buyurtmalardan foiz olmaymiz — umuman." instead of "Foiz — nol. Bir so'm ham."; "Mijoz botdan buyurtma beradi" instead of "Buyurtma — botda."
+- Read every line aloud; if it sounds like a slogan or a translation, rewrite it. Ask the person (native speaker) to read the script once before the voice is generated.
+- Keep facts exact while simplifying wording (prices, tariffs, what is in which plan).
+
+**Quality is non-negotiable.** Every video ships at full quality: native resolution (1080×1920 / 1920×1080 or higher), the agreed frame rate (60 fps if promised), full motion-blur sub-frames, high-quality encode (x264 `-preset slow -crf 17–19`, AAC 256k). Never lower sub-frames, resolution, fps, bitrate or effects to make a render finish sooner — if it is slow, parallelise, run it detached and wait, or ask the person first. A shortcut the person did not approve is a broken deliverable.
+
+**Layout: text never collides with anything.** Reserve a text zone (e.g. the top band below the platform's safe area) and keep heroes (device, cards, characters, decorative dots/balls) out of it while text is on screen; nothing passes over or under a caption, and a decorative element never sits on top of a word. Check it automatically: register every drawn element's bounding box per frame as "text" or "hero" and fail the render on any intersection (sample every 1/30 s). Display type: set explicit line breaks and a no-break space before a dash, so the layout never wraps a word or a lone dash onto a line you did not design.
+
+**2.5D depth must be believable.** Don't thread a flat object through a ring/loop or fan several copies of the same device around it — fake depth sorting and interpenetrating copies read as broken. Shadows come from the object's real silhouette (alpha, blurred, offset with the lift), never from the image's bounding rectangle or a hard-edged offset quad (that shows up as a grey card behind a phone). An element lifted off a screen leaves its spot empty (screen background colour) so it reads as one object that moved, not a duplicate.
+
+**When the person dislikes the execution, change the visual approach**, not only the bug they pointed at: if one idea produced several defects, rebuild the sequence with a different device (e.g. UI elements breaking out of the screen, colour-block wipes, kinetic type) and re-run the whole QA.
+
 **Captions** — readable, not template. Short phrases (≤ 2 lines), word-level highlight timed to speech, safe zones (platform UI covers roughly the top 220 px and bottom 420 px of 1080×1920), good contrast on busy backgrounds.
+
+**Batch ledger** — slop also lives *between* videos. Keep a table per batch: hook archetype, dominant colour, signature device/visual idea (receipt printer, odometer clock, chat thread, light line…), camera signature, closing line, music genre/tempo. A device reused in a second video of the same batch (e.g. the same "zero fee" stamp on a receipt in two videos) reads as a template even when every single video passes on its own.
+
+**Devices and product proof**
+- Never draw a phone, tablet or laptop by hand. Use the maker's real device frames (Apple Design Resources → Product Bezels for iPhone/iPad; read their licence — mock-ups only, no redistribution: a private project repo may hold the PNGs so anyone on the team can render, never a public repo — there, ship a download script) and composite the real screen *under* the bezel, aligned to the measured screen opening, with the bezel's own Dynamic Island.
+- Capture screens at the device's own point size (iPhone 17 Pro: 402×874 pt @3x) with the platform chrome you would really see (status bar, Telegram web-app header), fixed clock/time zone and the right UI language.
+- Real proof beats claims: crop the client's own pricing card, steps section or trial banner from their site and show it; verify every fact against the *current* source (code, live page) — old assets go stale (a social preview image still said "14 days free" when the product gave 30).
+- Before any capture goes into a video, scan it for personal data and phone numbers (crop or re-frame) and say on screen that demo data is sample data.
+
+**Captions that are part of the world** — instead of a template caption bar, let the product carry the words: chat bubbles whose words darken as they are spoken, kinetic type chunks of 2–4 words that replace each other, a receipt line that prints. One text layer per moment; the hook text is fully readable at frame 0 (no karaoke on the opening line).
+
+**Paid ads (Reels/Stories ads)** differ from organic Reels:
+- The message is already on frame 0 (call-out or offer), brand visible within 3 s, sound-off readable (burned-in word captions), one offer, one CTA that points at the platform's own button ("press the button below").
+- Ad safe zones are stricter: keep key content out of the top ≈14 % (270 px) and bottom ≈35 % (670 px) of 1080×1920, and ≈6 % at the sides.
+- 9:16, 12–20 s, a hard visual change every 2–4 s (flat colour fields, wipes), language variants composed per language (text length differs), not subtitled copies.
+
+**Covers and frame 0** — never splice a different "poster" frame in as frame 0 (it flashes for one frame and the next frame looks different); make frame 0 a good cover, or deliver a separate cover image for upload.
+
+**Ask, don't assume, what the ending says** — the domain/brand on the end card must be the one the client wants (an umbrella brand vs. a sub-product domain), and the CTA must match how sign-up really works (application vs. self sign-up).
 
 ## Reference files
 - `references/tells.md` — the research-backed list of slop tells with sources; read it when you need to explain a rule to the user or add a new one.
 - `references/qa-checklist.md` — the pass/fail gate to run before every delivery (copy it into your reply as a table with ✓/✗ per item).
+- `../pro-video-production/scripts/motion_qa.py` — frame-difference check for dead frames (> 0.5 s) and jumps; run on every render.
 - `scripts/lint_copy.py` — run on script files (JSON `{id:{"lines":[...]}}` or plain text, one video per file): flags banned phrases, duplicate openers/endings across a batch, metronome line lengths, missing specifics, exclamation spam. Usage: `python scripts/lint_copy.py content.json [more files]`.

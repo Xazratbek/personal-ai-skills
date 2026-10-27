@@ -23,6 +23,7 @@ This repository holds `SKILL.md` files that instruct agents how to work on speci
 | [`pragmatic-clean-code`](./pragmatic-clean-code/) | O‘qilishi oson, maintainable kod: SOLID, DRY, KISS, YAGNI, refaktoring va arxitektura chegaralari. |
 | [`anti-slop-video`](./anti-slop-video/) | AI-slop belgilarisiz video/reels: aniq skript, o‘ziga xos vizual, jonli harakat va ovoz, QA-gate va copy linter. / Make video that doesn’t read as AI slop: specific scripts, distinct visuals, organic motion and voice, QA gate and copy linter. |
 | [`anti-slop-voice`](./anti-slop-voice/) | AI/TTS ovozini "robotcha"likdan xalos qilish: ona tili ovozi, to‘g‘ri temp, buzmaydigan post-zanjir, mix maqsadlari, QC skripti. / Natural, non-robotic TTS voiceover for videos: native voice, real pace, damage-free post chain, mix targets, objective QC script. |
+| [`pro-video-production`](./pro-video-production/) | Reels va launch videolarni boshidan oxirigacha professional qilish: brif (spec ad PROMPT.md), uzluksiz ovoz take'i, rasmni ovozga moslash, haqiqiy qurilma ramkalari, kodda musiqa, QA skriptlari (motion, ASR). / End-to-end pro video: brief, continuous VO take, picture timed to voice, real device frames, code-made music, QA scripts. |
 
 Har bir papkada `SKILL.md` — agent uchun asosiy ko‘rsatma; qo‘shimcha `reference.md`, `examples.md` va `agents/` bo‘lishi mumkin.
 

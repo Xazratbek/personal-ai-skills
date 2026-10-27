@@ -1,5 +1,7 @@
 # Studio VO chain (ffmpeg) and mix targets
 
+> Use this chain only for raw local/cheap engines. A premium continuous take (e.g. ElevenLabs `eleven_v4` whole-script request) gets **one soxr resample and nothing else** — EQ, compression and pause tightening on it were heard as "processed" and made no listener-visible improvement.
+
 Apply once, from the raw generated take, in this order. Every step is gentle; if you can hear a step working, it is too strong.
 
 ```bash
@@ -32,7 +34,7 @@ Only if tempo really must change (and ≤ 6 %): prepend `rubberband=tempo=1.04:p
 
 ## Mix targets (Reels/TikTok/Shorts)
 - Voice peak-normalised in the stem; the master does loudness: −14 LUFS integrated, true peak ≤ −1 dBTP (−1.5 for safety through re-encodes).
-- Music bed −9 dB pre-duck and a further 10–15 dB duck keyed by the VO (attack ≈ 50 ms, release ≈ 400 ms); fade in 0.8 s, fade out 1.6 s.
+- Music bed −9 dB pre-duck and a further duck keyed by the VO so the bed ends up **≥ 15 dB under the voice while words are spoken** (measure VO vs music RMS over voiced samples; 10–12 dB was not enough under a busy code-made groove) (attack ≈ 50 ms, release ≈ 400 ms); fade in 0.8 s, fade out 1.6 s.
 - Room tone −40…−46 dB constant under everything — kills "digital silence" between lines.
 - SFX (tap, whoosh, chime) on real on-screen events, whoosh starts ~250 ms before the cut, taps ~50 ms before the visual press.
 - Check on a phone speaker: every word intelligible with music on.

@@ -1,6 +1,6 @@
 ---
 name: pragmatic-clean-code
-description: Use when Codex is writing, editing, refactoring, or reviewing application code and must keep it readable, maintainable, simple, and architecture-aware. Trigger for requests that mention clean code, readable code, SOLID, DRY, KISS, YAGNI, PEP8, architecture, refactoring, AI-generated code quality, maintainability, service/view/component boundaries, or making code easier for humans to understand.
+description: Use when writing, editing, refactoring, or reviewing application code and it must stay readable, maintainable, simple, and architecture-aware. Trigger for requests that mention clean code, readable code, SOLID, DRY, KISS, YAGNI, PEP8, architecture, refactoring, AI-generated code quality, maintainability, service/view/component boundaries, or making code easier for humans to understand.
 ---
 
 # Pragmatic Clean Code
@@ -14,12 +14,12 @@ Optimize for the next reader first: the main path should be discoverable from na
 ## Non-Negotiable Workflow
 
 1. Read the surrounding code before editing. Identify the existing architecture, naming style, module boundaries, validation patterns, error handling, tests, and formatting tools.
-2. State the intended shape for non-trivial changes before editing: where logic belongs, which existing pattern will be followed, and which principle is driving the decision.
+2. State the intended shape before editing whenever the change is non-trivial — it touches more than one architectural layer, introduces a new function/class/abstraction, changes a public API or data shape, or would exceed the Function Shape Rules guardrails below. State where logic belongs, which existing pattern will be followed, and which principle is driving the decision. Skip this for single-line fixes, renames, or changes confined to one function.
 3. Keep the behavioral change narrow. Do not refactor unrelated code, rename broadly, or introduce a new architecture unless the task requires it.
 4. Separate responsibilities at the smallest useful boundary. Keep UI/views/controllers thin; move domain decisions, validation, permissions, status transitions, data access, and side effects to the existing appropriate layer.
 5. Keep each non-trivial function shaped around one level of abstraction. If a function mixes validation, querying, decision-making, mutation, and response formatting, split it before finalizing.
 6. Use tests, linting, type checks, or focused manual checks that match the risk of the change. If verification cannot run, say exactly why.
-7. Do a final self-review for readability, unnecessary abstraction, duplication, naming, error paths, and consistency with local patterns before responding. Fix issues found by the review instead of only reporting them.
+7. Before responding, run the Final Quality Gate and Review Checklist below against the actual diff. Fix issues they surface instead of only reporting them.
 
 ## Principle Selection
 
@@ -29,16 +29,16 @@ Apply principles according to context:
 - YAGNI: Do not add extension points, interfaces, configuration, generic helpers, factories, or framework layers for hypothetical future needs.
 - DRY: Remove duplication only when repeated code has the same reason to change and the new name makes the domain clearer. Keep small duplication when abstraction would hide intent, couple unrelated concepts, or require vague names.
 - SOLID: Use mainly where there are stable domain/service boundaries, classes, plugins, multiple implementations, or meaningful dependency seams. Do not force SOLID ceremony into small scripts, simple views, or one-off transformations.
-- Style guides such as PEP8: Follow project tooling and language conventions, including line length and wrapping. Remember that formatting is not enough: names, boundaries, and explicit behavior matter more than superficial style compliance.
+- Style guides such as PEP8: Follow project tooling and language conventions, including line length and wrapping. Formatting compliance is necessary but not sufficient — names, boundaries, and explicit behavior matter more than superficial style compliance.
 - Design patterns: Use established local patterns first. Introduce a named pattern only when it solves a present problem more clearly than direct code.
+- Security: Never let a readability or simplicity goal introduce an injection, auth, or data-exposure risk. When a principle above and a security concern conflict, security wins.
 
 ## Readability Rules
 
 Prefer:
 
-- Domain-specific names such as `reserve_stock_for_order` over vague names such as `process_data`.
+- Domain-specific names over vague ones — `reserve_stock_for_order`, not `process_data`. A function's name should describe the domain action and, where relevant, what it returns (prefer returning the updated domain object over forcing callers to re-fetch it).
 - Short functions with one clear reason to change.
-- Function names that describe the domain action and return value. Prefer `reserve_stock_for_order` over `reserve_order_stock` when the object being changed is stock reservation behavior, and prefer returning the updated domain object over forcing callers to re-fetch it.
 - Explicit data flow over hidden mutation.
 - Plain conditionals over over-generalized polymorphism when only one or two cases exist.
 - Small, named helpers when they clarify business intent.
@@ -62,7 +62,7 @@ Use these as guardrails, not hard math:
 - Extract helpers around domain concepts, not programming mechanics. Prefer `_ensure_stock_is_available` over `_check_data`.
 - Keep query-building, precondition checks, and mutation steps visibly separated in business workflows.
 - Do not create a helper for a single line unless the helper name reveals a business rule.
-- Avoid returning unused values. If a service returns data, the caller should use it; otherwise return only the updated domain object or nothing.
+- Do not return data the caller ignores. If a function returns something, make it the updated domain object the caller actually needs — otherwise return nothing.
 
 ## Architecture Boundaries
 
@@ -77,7 +77,7 @@ If the existing project does not use these exact names, follow its closest equiv
 
 ## AI Coding Discipline
 
-Before writing code, check whether the request needs clarification. Ask only when a wrong assumption would create risky behavior. Otherwise make a conservative assumption and state it.
+Before writing code, check whether the request needs clarification. Ask only when a wrong assumption would create risky or hard-to-reverse behavior. Otherwise make a conservative assumption and state it.
 
 During implementation:
 
@@ -85,7 +85,7 @@ During implementation:
 - Keep public APIs backward compatible unless the user requested a breaking change.
 - Preserve user changes and unrelated dirty work.
 - Use structured parsers and framework APIs instead of fragile string manipulation when available.
-- Keep dependencies unchanged unless a dependency is clearly justified and approved when needed.
+- Keep dependencies unchanged; add a new one only when it is clearly justified and the user has approved it.
 - Prefer readable framework usage over compressed one-liners. Wrap long querysets, serializer updates, decorators, and response construction when they carry multiple ideas.
 - If a workflow has business rules, test both the success path and the important failure paths. Tests should name the behavior, not the implementation detail.
 
@@ -114,7 +114,7 @@ Use this checklist before final output:
 
 - Can a developer understand the main path in one pass?
 - Are names specific to the domain and behavior?
-- Is business logic outside UI/view/controller code where the project supports that?
+- Is the diff scoped to the requested change, with no incidental refactors, renames, or unrelated cleanup?
 - Did DRY avoid only true same-reason duplication?
 - Did KISS/YAGNI prevent unnecessary abstraction?
 - Is SOLID used only where it improves substitutability, testability, or boundaries?

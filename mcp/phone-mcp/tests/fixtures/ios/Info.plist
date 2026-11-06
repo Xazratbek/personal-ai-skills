@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key><string>com.phonemcp.fixture</string>
+    <key>CFBundleName</key><string>MCP Fixture</string>
+    <key>CFBundleDisplayName</key><string>MCP Fixture</string>
+    <key>CFBundleExecutable</key><string>PhoneMcpFixture</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleVersion</key><string>1</string>
+    <key>CFBundleShortVersionString</key><string>1.0</string>
+    <key>MinimumOSVersion</key><string>17.0</string>
+    <key>UIDeviceFamily</key><array><integer>1</integer><integer>2</integer></array>
+    <key>UILaunchScreen</key><dict/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array><string>UIInterfaceOrientationPortrait</string></array>
+    <key>NSCameraUsageDescription</key><string>Fixture permission test</string>
+    <key>NSLocationWhenInUseUsageDescription</key><string>Fixture location test</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key><string>com.phonemcp.fixture</string>
+            <key>CFBundleURLSchemes</key><array><string>phonemcp</string></array>
+        </dict>
+    </array>
+</dict>
+</plist>

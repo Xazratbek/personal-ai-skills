@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+tests/fixtures/build/
+android-helper/debug.keystore
+.pytest_cache/

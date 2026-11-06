@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="status" />
+    <item type="id" name="field" />
+    <item type="id" name="tap_btn" />
+    <item type="id" name="hold_btn" />
+    <item type="id" name="double_btn" />
+    <item type="id" name="toggle" />
+    <item type="id" name="drag_area" />
+    <item type="id" name="icon_btn" />
+    <item type="id" name="where_btn" />
+</resources>

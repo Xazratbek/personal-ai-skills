@@ -32,6 +32,18 @@ Each folder contains a primary `SKILL.md`; optional `reference.md`, `examples.md
 
 ---
 
+## MCP serverlar / MCP servers
+
+Skill'lardan tashqari, o‘zim yozgan MCP serverlar `mcp/` papkasida turadi.
+
+Besides skills, MCP servers I built live under `mcp/`.
+
+| Server | Qisqacha / Summary |
+|--------|-------------------|
+| [`phone-mcp`](./mcp/phone-mcp/) | iOS simulator, Android emulator va Android telefonni AI agentga bepul, lokal boshqartirish: 41 tool, ekran elementlari, gestlar, unicode kiritish, deep link, log, video, ruxsatlar. / Drive iOS simulators, Android emulators and Android phones from any MCP client, free and local: 41 tools covering screen elements, gestures, Unicode typing, deep links, logs, video and permissions. |
+
+---
+
 ## Tuzilma / Structure
 
 ```
@@ -42,10 +54,12 @@ personal-ai-skills/
 │   ├── SKILL.md
 │   ├── reference.md
 │   └── examples.md
-└── pragmatic-clean-code/
-    ├── SKILL.md
-    └── agents/
-        └── openai.yaml
+├── pragmatic-clean-code/
+│   ├── SKILL.md
+│   └── agents/
+│       └── openai.yaml
+└── mcp/
+    └── phone-mcp/
 ```
 
 **Odatiy qoida:** bitta skill = bitta papka, nomi skill `name` maydoniga mos.
